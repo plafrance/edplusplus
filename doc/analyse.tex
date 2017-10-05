@@ -1,0 +1,171 @@
+\documentclass[12pt,pdftex,oneside]{article}
+% Mes ajouts pour les accents
+\usepackage[utf8]{inputenc}%
+\usepackage[T1]{fontenc}%
+\usepackage[french]{babel}%
+
+\include{mes_macros}
+%\include{graphicx}
+
+\renewcommand{\theenumii}{\roman{enumii}}%
+
+\begin{document}
+
+
+\section{Fonctions utilitaires}
+
+\subsection{afficher\_ligne}
+
+\begin{itemize}
+\item Signature : \texttt{void afficher\_ligne(int num\_ligne)}
+\item Description :
+
+Affiche une seule ligne. La ligne est affichée en trois parties le numéro, le séparateur et le contenu de la ligne.
+
+\begin{description}
+\item [Le numéro] : le numéoro de la ligne aligné à droite. La largeur du numéro est toujours assez grande pour afficher le dernier numéro du tampon en conservant alignés les séparateurs.
+\item [Le séparateur] : «~:~» ou  «~:*~» s'il s'agit de la ligne courante.
+\item [Le contenu] : Toute la chaîne de caractère qui représente une ligne, suivie d'un retour de chariot.
+\end{description}
+
+Exemple : 
+\begin{verbatim}
+  0 : contenu de la ligne
+  
+  ou 
+  
+  0 :*contenu de la ligne
+  
+  s'il s'agit de la ligne courante.
+\end{verbatim}
+
+\item Paramètres :
+  \begin{enumerate}
+  \item num\_ligne : Le numéro de la ligne dans le tampon à afficher.
+  \end{enumerate}
+
+\item Retour : void.
+\end{itemize}
+
+\subsection{afficher}
+\begin{itemize}
+\item Signature : \texttt{void afficher()}
+\item Description :
+  Affiche toutes les lignes du tampon grâce à la fonction afficher\_lignes.
+\item Paramètres : aucun
+\item Retour : void.
+
+\end{itemize}
+
+\subsection{lire\_fichier}
+\begin{itemize}
+\item Signature : \texttt{int lire\_fichier(char** destination, const char* nom\_fichier)}
+\item Description :
+  Lit le contenu d'un fichier donné en paramètre et en place chacune des lignes dans le tableau de chaînes destination. Si le fichier n'existe pas ou est illisible, un tampon vide est créé.
+\item Paramètres :
+  \begin{enumerate}
+  \item destination. Tableau de chaînes de caractères prêt à recevoir le contenu du fichier.
+  \item nom\_fichier. Chaîne de caractère contenant le chemin d'accès absolu ou relatif au répertoire de travail du programme.
+  \end{enumerate}
+\end{itemize}
+
+\subsection{ecrire\_fichier}
+\begin{itemize}
+\item Signature : \texttt{bool ecrire\_fichier(const char* nom\_fichier, char ** const lignes, int nb\_lignes)}
+\item Description : Écrit toutes les lignes de \emph{lignes} dans un fichire nommé \emph{nom\_fichier}. Si le fichier n'existe pas il est créé, s'il existe il est écrasé.
+\item Paramètres :
+  \begin{enumerate}
+  \item nom\_fichier : Chaîne de caractère contenant le chemin d'accès absolu ou relatif au répertoire de travail du programme.
+  \item lignes : Tableau de chaînes de caractères à écrire dans le fichier.
+    \item nb\_lignes : Le nombre total d'éléments dans \emph{lignes}
+  \end{enumerate}
+\end{itemize}
+
+\subsection{est\_numerique}
+\begin{itemize}
+\item Signature : \texttt{bool est\_numerique(const char* chaine)}
+\item Description : Détermine si une chaîne de caractère ne contient que des caractères numériques.
+\item Paramètres :
+  \begin{enumerate}
+  \item chaine : Chaîne de caractère à analyser.
+  \end{enumerate}
+  \item Retour : Vrai si et seulement si tous les caractères de \emph{chaine} sont l'un des caractères «0123456789».
+\end{itemize}
+
+
+\subsection{compter\_mots}
+\begin{itemize}
+\item Signature : \texttt{int compter\_mots(const char* source)}
+\item Description : Compte le nombre de mots dans une chaîne de caractères. \emph{Un mot est délimité par le début de la chaîne, une ou plusieurs espaces ou la fin de la chaîne}.
+\item Paramètres :
+  \begin{enumerate}
+  \item source : La chaîne de caractère dont compter les mots.
+  \end{enumerate}
+\item Retour : Le nombre de mots contenus dans la chaîne (>=0).
+\end{itemize}
+
+\subsection{changer\_casse}
+\begin{itemize}
+\item Signature : \texttt{char *changer\_casse(char* dest, const char* source, int casse)}
+\item Description : Modifie la casse de lettres d'une chaîne de caractères selon le paramètre \emph{casse}.
+  Si casse vaut :
+  \begin{itemize}
+  \item CASSE::MAJ : Toutes les lettres sont transformées en majuscules.
+  \item CASSE::MIN : Toutes les lettres sont transformées en minuscules.
+  \item CASSE::CAP : Toutes les lettres sont transformées en minuscules sauf la toute première qui est transformée en majuscule.
+  \end{itemize}
+
+\item Paramètres :
+  \begin{enumerate}
+  \item dest : Paramètre de sortie. Pointeur vers la chaîne de caractères modifiée.
+  \item source : La chaîne de caractères originale.
+  \item casse : L'une des constantes de CASSE.
+  \end{enumerate}
+
+\item Retour : Un pointeur vers la chaîne modifiée.
+\end{itemize}
+
+\subsection{separer\_mots}
+\begin{itemize}
+\item Signature : \texttt{int separer\_mots(char** mots, const char* source)}
+\item Description : Sépare une chaîne ses composantes. Copie chaque mot de \emph{source}, dans \emph{mots} puis retourne le nombre de mots trouvés. La définition d'un mot est la même que celle utilsée par \emph{compter\_mots}.
+\item Paramètres :
+  \begin{enumerate}
+  \item mots : Tableau de chaînes de caractères devant contenir la liste des mots trouvés. Le tableau doit compter suffisamment d'espace pour tous les mots de la source.
+    \item source : La chaîne de caractère à analyser.
+    \end{enumerate}
+  \item Retour : Le nombre de mots trouvés et copiés dans \emph{mots}.
+  \end{itemize}
+
+\subsection{chercher}
+\begin{itemize}
+\item Signature : \texttt{int chercher(const char* source, const char* cible)}
+\item Description : Recherche une sous-chaîne dans une chaîne.
+\item Paramètres :
+  \begin{enumerate}
+  \item source : La chaîne de caractère dans laquelle chercher la cible.
+  \item cible : La sous-chaîne recherchée.
+  \end{enumerate}
+\item Retour : L'indice du premier caractère de la sous-chaîne dans \emph{source} s'il existe, -1 sinon.
+\end{itemize}
+
+\subsection{remplacer}
+\begin{itemize}
+\item Signature : \texttt{char *remplacer(char* dest, const char* source, const char* cible, const char* remplacement)}
+\item Description : Recherche une sous-chaîne et, si elle existe, la remplace par une autre. La chaîne telle que modifiée est placée dans le paramètre de sortie \emph{dest}. L'originale est inchangée. Si \emph{cible} ne se trouve pas dans \emph{source}, \emph{dest} est une copie inchangée de \emph{cible}.
+\item Paramètres :
+  \begin{enumerate}
+  \item dest : Paramètre de sortie. Pointeur vers la chaîne modifiée.
+  \item source : La chaîne originale.
+  \item cible : La sous-chaîne recherchée
+    \item remplacement : Le remplacement si la sous-chaîne est trouvée.
+    \end{enumerate}
+
+  \item Retour : Un pointeur vers la chaîne destination.
+  \end{itemize}
+  
+\end{document}
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:

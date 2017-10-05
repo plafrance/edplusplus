@@ -23,7 +23,7 @@ const int NB_PARAMS_MAX=3;
 //Variables globales concernant le document en cours d'édition
 
 //Les lignes du document
-char* lignes[NB_LIGNES_MAX];
+char* tampon[NB_LIGNES_MAX];
 
 //Le nombre de lignes que contient le document
 int nb_lignes=0;
@@ -51,7 +51,7 @@ char nom_fichier[256];
 */
 void afficher_ligne(int num_ligne){
     cout.width(log10(nb_lignes));
-    cout << num_ligne << " :"<< (num_ligne==ligne_courante?"*":" ") << lignes[num_ligne] << endl;
+    cout << num_ligne << " :"<< (num_ligne==ligne_courante?"*":" ") << tampon[num_ligne] << endl;
 }
 
 /*
@@ -74,12 +74,12 @@ void afficher(){
      le nombre de lignes lues ou -1 si le fichier n'a pu être lu.
 
  */
-int lire_fichier(char** destination, char* nom_fichier){
-    int nb_lignes=0;
+int lire_fichier(char** destination, const char* nom_fichier){
+    int nb_lignes=-1;
     ifstream fichier=ifstream(nom_fichier);
     if(fichier.is_open()){
 	while(!fichier.eof())
-	    fichier.getline(destination[nb_lignes++]=new char[LIGNE_MAXLONG],LIGNE_MAXLONG);
+	    fichier.getline(destination[++nb_lignes]=new char[LIGNE_MAXLONG],LIGNE_MAXLONG);
 	fichier.close();
     }
 
@@ -100,7 +100,7 @@ int lire_fichier(char** destination, char* nom_fichier){
      vrai si le fichier a bien été sauvegardé.
 
 */
-bool ecrire_fichier(char* nom_fichier, char **lignes, int nb_lignes){
+bool ecrire_fichier(const char* nom_fichier, char ** const lignes, int nb_lignes){
     ofstream fichier=ofstream(nom_fichier);
     if(fichier.is_open()){
 	for(int i=0;i<nb_lignes;i++){
@@ -121,7 +121,7 @@ bool ecrire_fichier(char* nom_fichier, char **lignes, int nb_lignes){
   Retour :
     vrai si et seulement si la chaîne ne contient que des chiffres.
  */
-bool est_numerique(char* chaine){
+bool est_numerique(const char* chaine){
     for(;*chaine;++chaine){
 	if(!isdigit(*chaine)){
 	    return false;
@@ -143,13 +143,19 @@ int main(int args, char* argv[]){
     //Nombre de paramètres entrés par l'utilisateur.
     int nb_params;
 
+    cout << "Bienvenue à EdPlusPlus.\n";
+    cout << "version 0.1\n\n";
+    
     commande[0]=0;
-
     //Récupère le contenu du fichier si spécifié en paramètres au programme
     memset(nom_fichier, 0, 256);
     if(args>1){
 	strcpy(nom_fichier,argv[1]);
 	nb_lignes=lire_fichier(lignes, nom_fichier);
+	if(nb_lignes==-1){
+	    cout << "Le fichier " << nom_fichier << " n'existe pas. Un tampon vide a été créé." << endl;
+	    nb_lignes=0;
+	}
     }
     else{                                                                                                                                                                        
         cout << "Entrez un nom de fichier à éditer." << endl;
@@ -209,7 +215,7 @@ int main(int args, char* argv[]){
 	    }
 
 	    if(ligne_courante>-1){
-		changer_casse(lignes[ligne_courante], lignes[ligne_courante], CASSE::MAJ);
+		changer_casse(tampon[ligne_courante], tampon[ligne_courante], CASSE::MAJ);
 	    }
 	    else{
 		cout<<"Aucune ligne sélectionnée\n";
@@ -228,7 +234,7 @@ int main(int args, char* argv[]){
 	    }
 
 	    if(ligne_courante>-1){
-		changer_casse(lignes[ligne_courante], lignes[ligne_courante], CASSE::MIN);
+		changer_casse(tampon[ligne_courante], tampon[ligne_courante], CASSE::MIN);
 	    }
 	    else{
 		cout<<"Aucune ligne sélectionnée\n";
@@ -247,7 +253,7 @@ int main(int args, char* argv[]){
 	    }
 
 	    if(ligne_courante>-1){
-		changer_casse(lignes[ligne_courante], lignes[ligne_courante], CASSE::CAP);
+		changer_casse(tampon[ligne_courante], tampon[ligne_courante], CASSE::CAP);
 	    }
 	    else{
 		cout<<"Aucune ligne sélectionnée\n";
@@ -335,7 +341,7 @@ x
 	//Sauvegarde le fichier.
 	else if(!strcasecmp(cmd, "e")){
 	    //Utilise le nom de fichier donné en paramètre.
-	    ecrire_fichier(nom_fichier, lignes, nb_lignes);
+	    ecrire_fichier(nom_fichier, tampon, nb_lignes);
 	}
 
 	//Quitte le programme

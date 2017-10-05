@@ -1,1 +1,9 @@
 Ébauche de projet pour le TP 2 du cours 420-236. Automne 2017.
+
+# Mise en contexte
+Rien de tel pour apprendre les bases d'un art que de se fabriquer son propre outil de travail (est-ce que tout bon Jedi ne doit pas construire son propre sable laser?). Vous allez donc, en bon jedi-programmeur, construire votre propre éditeur de texte (votre compilateur maison devra attendre encore un peu).
+
+L'éditeur le plus simple (à faire, pas à utiliser!) est sans doute [ed](https://fr.wikipedia.org/wiki/Ed_(logiciel). L'éditeur développé à l'origine par Ken Thompson en 1969 était conçu pour être utilisé sur un terminal équipé uniquement d'un clavier et d'une imprimante (pas d'écran! C'était la belle époque, non?). Il n'est donc pas question d'afficher le texte dans une fenêtre; le concept même de curseur n'a pas de sens. Ed se contente «d'imprimer» les lignes une à une et de répondre à des commandes simple telles que «afficher la ligne 3» ou «ajouter une ligne après la ligne 8», etc. Pour les intéressé, voici un [tutoriel sur ed](https://sanctum.geek.nz/arabesque/actually-using-ed/).
+
+# Votre mission, si vous l'acceptez
+Nous allons donc faire notre propre version de ed. J'ai déjà commencé le projet (pour être honnête, je l'ai terminé et vous pouvez l'essayer en version [Linux](https://www.dropbox.com/s/l5krn6a1wp9kzwm/editeur?dl=1) ou [Windows](https://www.dropbox.com/s/152too47ypo6wqz/editeur.exe?dl=1)) et j'ai placé mon [ébauche sur GitLab](adresse à venir.) Vous pourrez trouver là le manuel complet de l'éditeur ainsi qu'un document d'analyse donnant les détails techniques. Vous devrez implémenter toutes les fonctionnalités qui s'y trouvent ainsi que les tests unitaires pour chacune des fonctions du système principal décrites dans l'analyse. Votre travail doit être fait en collaboration grâce à git et «hébergé» sur le serveur [gitlab](https://git.dept-info.crosemont.quebec) du département.

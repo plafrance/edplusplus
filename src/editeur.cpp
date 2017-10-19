@@ -151,7 +151,7 @@ int main(int args, char* argv[]){
     memset(nom_fichier, 0, 256);
     if(args>1){
 	strcpy(nom_fichier,argv[1]);
-	nb_lignes=lire_fichier(lignes, nom_fichier);
+	nb_lignes=lire_fichier(tampon, nom_fichier);
 	if(nb_lignes==-1){
 	    cout << "Le fichier " << nom_fichier << " n'existe pas. Un tampon vide a été créé." << endl;
 	    nb_lignes=0;
